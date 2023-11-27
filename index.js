@@ -63,6 +63,7 @@ productSelectFilter.addEventListener('change', (e) => {
     `
     }
     productWrapDOM.innerHTML = strTemplate;
+    addCart();
 })
 
 // 加入購物車
