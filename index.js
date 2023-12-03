@@ -48,7 +48,6 @@ productSelectFilter.addEventListener('change', (e) => {
     }
     const alreadyFilter = products.filter(eve => eve.category === e.target.value);
     let strTemplate = '';
-    console.log(alreadyFilter);
     for (const i of alreadyFilter) {
         strTemplate += `
     <li class="productCard" data-category=${i.category}>
@@ -156,11 +155,18 @@ function deleteAllCartList() {
 orderInfoBtn.addEventListener('click', createOrder);
 function createOrder(e) {
     e.preventDefault();
-    if (cart == 0) return;
+    if (cart == 0) {
+        alert('購物車是空的!');
+        return;
+    };
     const form = document.querySelector('.orderInfo-form');
     const user = {};
     const formData = new FormData(form);
     for (let pair of formData.entries()) {
+        if (pair[1].trim()==='') {
+            alert('欄位請確實填寫');
+            return;
+        }
         user[pair[0]] = pair[1];
     }
     axios.post(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/orders`,
@@ -170,7 +176,6 @@ function createOrder(e) {
             }
         })
         .then(function (response) {
-            console.log(response);
             if (response.status === 200) {
                 shoppingCartTable.innerHTML = '';
                 form.reset();
